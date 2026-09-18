@@ -65,6 +65,7 @@ import org.fossify.calendar.helpers.REPEAT_RULE
 import org.fossify.calendar.helpers.REPEAT_SAME_DAY
 import org.fossify.calendar.helpers.START_TS
 import org.fossify.calendar.helpers.TASK
+import org.fossify.calendar.helpers.TASK_DEFAULT_REMINDER_MINUTES
 import org.fossify.calendar.helpers.TYPE_TASK
 import org.fossify.calendar.helpers.generateImportId
 import org.fossify.calendar.models.CalendarEntity
@@ -368,14 +369,11 @@ class TaskActivity : SimpleActivity() {
 
     private fun setupNewTask(savedInstanceState: Bundle?) {
         mTask = Event(null)
-        config.apply {
-            mReminder1Minutes =
-                if (usePreviousEventReminders && lastEventReminderMinutes1 >= -1) lastEventReminderMinutes1 else defaultReminder1
-            mReminder2Minutes =
-                if (usePreviousEventReminders && lastEventReminderMinutes2 >= -1) lastEventReminderMinutes2 else defaultReminder2
-            mReminder3Minutes =
-                if (usePreviousEventReminders && lastEventReminderMinutes3 >= -1) lastEventReminderMinutes3 else defaultReminder3
-        }
+        // New tasks always start with a single "at start" reminder, regardless of the
+        // previously used or default event reminders.
+        mReminder1Minutes = TASK_DEFAULT_REMINDER_MINUTES
+        mReminder2Minutes = REMINDER_OFF
+        mReminder3Minutes = REMINDER_OFF
 
         if (savedInstanceState == null) setupNewTask()
     }
