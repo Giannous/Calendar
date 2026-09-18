@@ -116,7 +116,9 @@ android {
         )
     }
 
-    namespace = project.property("APP_ID").toString()
+    // Kept fixed so the R and BuildConfig classes stay in the package the
+    // sources import, even though APP_ID differs from the upstream app.
+    namespace = "org.fossify.calendar"
 
     lint {
         checkReleaseBuilds = false
